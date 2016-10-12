@@ -1,0 +1,58 @@
+Lab1:
+
+
+1. found by looking through man man
+	man -k "word"
+2. found using "which cp" and "which wc"
+/usr/bin/cp for cp /usr/bin/wc for wc
+3. found using find /usr/bin -name '?' and looking at the man pages for each file
+   X - portable windows manager
+   w - show who is logged on and what they are doing
+   [ - no man page
+4. found with "ls -l /usr/bin/emacs"
+	/etc/alternatives/emacs 
+5. found on man chmod
+	g+s means: other users in the file group (not the user who owns it) will have their access changed, the selected filed mode will be added the existing file mode bits of each file, and to set user or group ID on execution. Person accessing gets permission.
+ o-x means: Other users not in the group will have their access to the file removed and to set user or group ID on execution.
+6. found on man find
+	find -mtime -21
+7. found on man find
+	find / -type d -mtime -21
+8. found using "find  /usr/bin/ -type l -ls | wc -l"
+	242
+9. found using "find /usr/lib -type f -printf "%T + %p\n" | sort | head -n -1
+	/usr/lib/python2.7/site-packages/pyasn1/codec/ber/eoo.py
+10. found in man locale
+	from current local, the LC_* environment variables, and from Base Definitions volume of IEEE Std 1003.1-2001 in different sections
+11. found in emacs C-h SP a SP s o r t
+	buffer-menu-sort, sort-columns, sort-fields, sort-lines, sort-numeric-fields, sort-pages, sort-paragraphs, sort-regex-fields, sort-regexp-fields, tabulated-list-col-sort, tabulated-list-sort.
+12. emacs C-h b
+C-M-a: go to beginning of defun
+C-M-b: move backward from a s-expression
+C-M-c: exit from current innermost recursive edit
+C-M-d: move down from parenthesis structure
+C-M-e: go to end of defun
+C-M-f: move forward from a s-expression
+C-M-g: none
+C-M-h: mark region as defun
+13. emacs C-h SP k SP C-g
+C-g runs the command keyboard-quit, which is an interactive compiled
+Lisp function.
+
+(keyboard-quit)
+
+Signal a `quit' condition.
+During execution of Lisp code, this character causes a quit directly.
+At top-level, as an editor command, this simply beeps.
+14. emacs C-h SP f SP y a n k
+Reinsert ("paste") the last stretch of killed text.
+More precisely, reinsert the most recent kill, which is the
+stretch of killed text most recently killed OR yanked.  Put point
+at the end, and set mark at the beginning without activating it.
+With just C-u as argument, put point at beginning, and mark at end.
+With argument N, reinsert the Nth most recent kill.
+15. emacs C-h SP f SP d i r e d while cd in /usr/bin/ 
+emacs does not have "." or "..", but does have symbolic links in color
+
+
+
