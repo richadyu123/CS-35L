@@ -1,0 +1,41 @@
+#!/bin/bash 
+
+dir=$1
+
+FINAL=`ls -a $dir | grep '^\.' | sort` |
+declare -a ARRAY
+let temp=0
+
+for FILE in $FINAL
+do	
+	if [! -r "$dir/$FILE"]
+	then
+		echo "Permission denied to $dir/$FILE"
+	elif [ ! -L "$dir/$FILE" ]
+	then
+		if [ -f "$dir/$FILE" ]
+		then
+			ARRAY[$temp]="$dir/$FILE"
+			let temp=temp+1
+		fi
+		
+	fi
+done
+
+for FILE in "${ARRAY[@]}"
+do
+	for FILE_2 in "${ARRAY[@]}"
+	do
+		if [ $FILE != $FILE_2]
+		then 
+			cmp -s $FILE $FILE_2
+			if [ $? == 0]
+			then
+				rm $FILE_2
+				ln $FILE $FILE_2
+			fi
+		fi
+	done
+done
+
+

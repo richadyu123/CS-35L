@@ -1,0 +1,38 @@
+#! /bin/bash
+
+#remove english
+sed '/<tr>/,/<\/td>/d' |
+
+#just want the words within <td></td>
+grep -o '<td>.*</td>' |
+
+#remove <u>s, </u>s, <td>s, and </td>s
+sed 's/<td>//g'|
+sed 's/<\/td>//g'|
+sed 's/<u>//g' |
+sed 's/<\/u>//g' |
+
+#remove commas
+sed 's/,//g' |
+
+#remove '?'
+sed 's/?//g' |
+
+#spaces between words become new lines
+sed 's/ /\n/g' |
+
+#replace Hawaiian Okina with apostrophe
+sed "s/\`/'/g" |
+
+#lowercase to uppercase
+tr '[:upper:]' '[:lower:]' |
+
+#remove hawaiian words that contain letters not in its alphabet
+sed "/[^pk'mnwlhaeiou]/d" |
+
+#get rid of empty line
+awk 'NF' |
+
+#sort the file, remove duplicates
+sort -u
+

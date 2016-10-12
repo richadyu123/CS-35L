@@ -1,0 +1,93 @@
+To start I typed in:
+export LC_ALL='C' 
+
+to upload a sorted version of /usr/shar/dict/words into my directory, I typed in the following:
+sort /usr/share/dict/words
+cp /usr/share/dict/words words
+
+After downloading the assignment 2 page with:
+wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/assign2.html
+
+the command:
+tr -c 'A-Za-z' '[\n*]' < assign2.html 
+
+replaced all symbols that were not alphabetic characters with new lines
+
+the command:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html 
+did the same as above, but squeezed multiple consecutive new lines into a single new line
+
+the command:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort
+did the same as above, but sorted the remaining words
+
+the command:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u
+sorted remaining words but kept only unique words
+
+the command:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u | comm - words
+compared the sorted file to words showing: words unique to the input, words unique to words, words shared between the two
+
+the command:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u | comm -23 - words
+shows only the words unique to the input
+
+buildwords script:
+---
+#! /bin/bash
+
+#remove english
+sed '/<tr>/,/<\/td>/d' |
+
+#just want the words within <td></td>
+grep -o '<td>.*</td>' |
+
+#remove <u>s, </u>s, <td>s, and </td>s
+sed 's/<td>//g'|
+sed 's/<\/td>//g'|
+sed 's/<u>//g' |
+sed 's/<\/u>//g' |
+
+#remove commas
+sed 's/,//g' |
+
+#remove '?'
+sed 's/?//g' |
+
+#spaces between words become new lines
+sed 's/ /\n/g' |
+
+#replace Hawaiian Okina with apostrophe
+sed "s/\`/'/g" |
+
+#lowercase to uppercase
+tr '[:upper:]' '[:lower:]' |
+
+#remove hawaiian words that contain letters not in its alphabet
+sed "/[^pk'mnwlhaeiou]/d" |
+
+#get rid of empty line
+awk 'NF' |
+
+#sort the file, remove duplicates
+sort -u
+
+----
+
+To make the script executable:
+chmod +x buildwords
+
+wget http://mauimapp.com/moolelo/hwnwdseng.htm
+
+./buildwords < hwnwdseng.htm > hwords
+
+running:
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | tr '[:upper:]' '[:lower:]' | sort -u | comm -23 - words > words1.txt
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | tr '[:upper:]' '[:lower:]' | sort -u | comm -23 - hwords > words2.txt
+
+tells us that there are 38 misspelled English words and 405 misspelled Hawaiian words	
+
+words that were misspelled in English but not Hawaiian include kula and halau, while words misspelled in Hawaiian but not English include create and page
+
+
